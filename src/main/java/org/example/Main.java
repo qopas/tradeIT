@@ -4,7 +4,9 @@ package org.example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -13,12 +15,15 @@ import java.io.IOException;
 // then press Enter. You can now see whitespace characters in your code.
 @SpringBootApplication
 @RestController
+@RequestMapping("/api/v1/demo-controller")
+
 public class Main {
     public static void main(String[] args) throws  IOException {
         SpringApplication.run(Main.class, args);
     }
     @GetMapping
-    public String smt(){
-        return "ceva";
+    public ResponseEntity<String> sayHello(){
+        return ResponseEntity.ok("Hi front-enders from secured endpoint");
     }
+
 }
