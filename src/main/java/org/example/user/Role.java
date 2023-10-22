@@ -1,4 +1,4 @@
-package main.security.user;
+package org.example.user;
 
 public enum Role {
 

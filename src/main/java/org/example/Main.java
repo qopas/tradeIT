@@ -15,7 +15,7 @@ import java.io.IOException;
 // then press Enter. You can now see whitespace characters in your code.
 @SpringBootApplication
 @RestController
-@RequestMapping("/api/v1/demo-controller")
+@RequestMapping("/api/demo")
 
 public class Main {
     public static void main(String[] args) throws  IOException {
