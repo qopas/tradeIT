@@ -1,10 +1,7 @@
 package org.example.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +13,6 @@ import java.util.List;
 @Builder //build object
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 @Table(name = "User1")
 public class User implements UserDetails {
