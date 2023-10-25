@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Categories")  // Use the actual table name if different
+@Table(name = "Categories")
 public class Category {
     @Id
     @Column(name = "category_id")

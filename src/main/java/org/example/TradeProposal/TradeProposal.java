@@ -12,6 +12,7 @@ import org.example.Product.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "TradeProposal")
 public class TradeProposal {
 
     @Id

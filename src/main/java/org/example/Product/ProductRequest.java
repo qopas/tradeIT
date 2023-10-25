@@ -17,5 +17,4 @@ public class ProductRequest {
     private String description;
     private String details;
     private String condition;
-    private MultipartFile file;
 }

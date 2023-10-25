@@ -33,11 +33,10 @@ public class ProductService {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private MinioClient minioClient;
+
     @Autowired
     private ImagesRepository imagesRepository;
-    public Specification<Product> buildProductSpecification(Integer categoryId, String condition, Integer sellerId, String name) {
+    public Specification<Product> buildProductSpecification(Integer categoryId, String condition, Integer seller, String name) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (categoryId != null) {
@@ -47,8 +46,8 @@ public class ProductService {
             if (condition != null) {
                 predicates.add(criteriaBuilder.equal(root.get("condition"), condition));
             }
-            if (sellerId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("sellerId"), sellerId));
+            if (seller != null) {
+                predicates.add(criteriaBuilder.equal(root.get("seller").get("id"), seller));
             }
 
             if (name != null) {
@@ -60,35 +59,13 @@ public class ProductService {
     }
     public Map<String, Object> saveProduct(ProductRequest productRequest){
         try {
-            MultipartFile file = productRequest.getFile();
             Product product = new Product();
-            product.setSeller(userRepository.findById(productRequest.getSeller_id()).orElse(null));
-            product.setCategory(categoryRepository.findById(productRequest.getCategory_id()).orElse(null));
+            product.setSeller(userRepository.findById(productRequest.getSeller_id()).get());
+            product.setCategory(categoryRepository.findById(productRequest.getCategory_id()).get());
             product.setProductName(productRequest.getName());
             product.setDescription(productRequest.getDescription());
             product.setCondition(productRequest.getCondition());
             Product saved = productRepository.save(product);
-            String bucketName = "images";
-            String objectName = file.getOriginalFilename();
-            minioClient.putObject(
-                    PutObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(objectName)
-                            .contentType(file.getContentType())
-                            .stream(file.getInputStream(), file.getSize(), -1)
-                            .build()
-            );
-            String presignedUrl = minioClient.getPresignedObjectUrl(
-                    GetPresignedObjectUrlArgs.builder()
-                            .method(Method.GET)
-                            .bucket(bucketName)
-                            .object(objectName)
-                            .build()
-            );
-            Images img = new Images();
-            img.setProduct(saved);
-            img.setImage_url(presignedUrl);
-            imagesRepository.save(img);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Product '" + productRequest.getName() + "' created successfully.");
             response.put("product_id", saved.getId());
@@ -104,7 +81,7 @@ public class ProductService {
         dto.setId(product.getId());
         User seller = product.getSeller();
         UserDTO sellerInfo = new UserDTO(seller.getId(), seller.getFirstName() + " " + seller.getLastName(), seller.getUsername(), seller.getEmail());
-        dto.setSellerId(sellerInfo);
+        dto.setSeller(sellerInfo);
         dto.setProductName(product.getProductName());
         dto.setCategory(product.getCategory());
         List<String> imgUrls = imagesRepository.findByProductIdId(product.getId())

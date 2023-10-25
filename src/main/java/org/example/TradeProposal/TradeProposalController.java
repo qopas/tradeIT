@@ -17,7 +17,7 @@ public class TradeProposalController {
     @Autowired
     private TradeProposalService tradeProposalService;
     @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> newProposal(TradeProposalRequest tradeProposal){
+    public ResponseEntity<Map<String, Object>> newProposal(@RequestBody TradeProposalRequest tradeProposal){
         return new ResponseEntity<>(tradeProposalService.saveProduct(tradeProposal), HttpStatus.CREATED);
     }
 

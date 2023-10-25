@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductDTO {
     private Integer id;
-    private UserDTO sellerId;
+    private UserDTO seller;
     private Category category;
     private String productName;
     private String description;
