@@ -5,8 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import org.example.Images.Images;
 import org.example.User.User;
 import org.example.Category.Category;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -34,6 +38,14 @@ public class Product {
 
     @Column(name = "condition")
     private String condition;
+
+    @Transient
+    private List<Images> images;
+    public List<String> getImageUrls() {
+        return images.stream()
+                .map(Images::getImage_url)
+                .collect(Collectors.toList());
+    }
 
 
 }

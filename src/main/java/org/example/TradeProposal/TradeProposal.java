@@ -20,10 +20,10 @@ public class TradeProposal {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "offeredProduct_id")
     private Product offeredId;
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "requestedProduct_id")
     private Product requestedId;
     @Column(name = "status")
     private String status;

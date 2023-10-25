@@ -5,8 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.Category.Category;
+import org.example.Images.Images;
 import org.example.User.User;
 import org.example.User.UserDTO;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,18 +22,7 @@ public class ProductDTO {
     private String productName;
     private String description;
     private String condition;
+    private List<String> imageURL;
 
 
-    public static ProductDTO fromProduct(Product product) {
-        User seller = product.getSeller();
-        UserDTO sellerInfo = new UserDTO(seller.getId(), seller.getFirstName() + " " + seller.getLastName(), seller.getUsername(), seller.getEmail());
-        return new ProductDTO(
-                product.getId(),
-                sellerInfo,
-                product.getCategory(),
-                product.getProductName(),
-                product.getDescription(),
-                product.getCondition()
-        );
-    }
 }
