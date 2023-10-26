@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.1.3</version>
+            <version>3.1.4</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -42,11 +42,6 @@
             <artifactId>spring-boot-starter-security</artifactId>
             <version>3.1.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-            <version> 3.1.2</version>
-        </dependency>
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -55,13 +50,6 @@
             <scope>provided</scope>
         </dependency>
         <!-- JSOn Web Token -->
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>0.11.5</version>
-        </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -95,7 +83,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.5.7.Final</version> <!-- Use a valid version -->
+            <version>6.2.7.Final</version> <!-- Use a valid version -->
         </dependency>
 
         <!-- HikariCP Connection Pool -->

@@ -1,7 +1,6 @@
-package org.example.user;
-
+package org.example.User;
 public enum Role {
 
-    USER,
-    ADMIN
+    user,
+    admin
 }

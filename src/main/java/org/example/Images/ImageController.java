@@ -17,7 +17,7 @@ import java.util.Map;
 public class ImageController {
     @Autowired
     private ImageService imageService;
-    @PostMapping("/upload")
+    @PostMapping("/add")
     public String handleFileUpload(@RequestParam("image") MultipartFile file, @RequestParam("product_id") Integer productId) {
        return imageService.uploadFile(file, productId);
     }
