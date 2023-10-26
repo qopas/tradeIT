@@ -11,6 +11,7 @@ import org.example.Images.ImagesRepository;
 import org.example.User.User;
 import org.example.User.UserDTO;
 import org.example.User.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,7 @@ public class ProductService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
-    public Map<String, Object> saveProduct(ProductRequest productRequest){
+    public Map<String, Object> saveProduct(@NotNull ProductRequest productRequest){
         try {
             Product product = new Product();
             product.setSeller(userRepository.findById(productRequest.getSeller_id()).get());
@@ -65,6 +66,9 @@ public class ProductService {
             product.setProductName(productRequest.getName());
             product.setDescription(productRequest.getDescription());
             product.setCondition(productRequest.getCondition());
+            product.setDetails(productRequest.getDetails());
+            product.setTargetProducts(productRequest.getTargetProducts());
+            product.setStatus("Available");
             Product saved = productRepository.save(product);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Product '" + productRequest.getName() + "' created successfully.");
@@ -76,7 +80,7 @@ public class ProductService {
             return null;
         }
     }
-    public ProductDTO mapProductToDTO(Product product) {
+    public ProductDTO mapProductToDTO(@NotNull Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
         User seller = product.getSeller();
@@ -84,6 +88,9 @@ public class ProductService {
         dto.setSeller(sellerInfo);
         dto.setProductName(product.getProductName());
         dto.setCategory(product.getCategory());
+        dto.setDetails(product.getDetails());
+        dto.setTargetProducts(product.getTargetProducts());
+        dto.setStatus(product.getStatus());
         List<String> imgUrls = imagesRepository.findByProductIdId(product.getId())
                 .stream()
                 .map(Images::getImage_url)

@@ -39,6 +39,15 @@ public class Product {
     @Column(name = "condition")
     private String condition;
 
+    @Column(name = "targetProducts")
+    private String targetProducts;
+
+    @Column(name = "details")
+    private String details;
+
+    @Column(name = "status")
+    private String status;
+
     @Transient
     private List<Images> images;
     public List<String> getImageUrls() {

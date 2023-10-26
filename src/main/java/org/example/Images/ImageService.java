@@ -18,7 +18,7 @@ public class ImageService {
     private ImagesRepository imagesRepository;
     @Autowired
     private ProductRepository productRepository;
-    public String uploadFile(MultipartFile file,  Integer sellerId){
+    public String uploadFile(MultipartFile file,  Integer productId){
         try {
             String bucketName = "iamges";
             String objectName = file.getOriginalFilename();
@@ -38,7 +38,7 @@ public class ImageService {
                             .build()
             );
             Images img = new Images();
-            img.setProduct(productRepository.findById(sellerId).get());
+            img.setProduct(productRepository.findById(productId).get());
             img.setImage_url(presignedUrl);
             imagesRepository.save(img);
             return "Image saved successful";

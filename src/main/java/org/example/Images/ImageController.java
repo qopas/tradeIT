@@ -18,7 +18,7 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("image") MultipartFile file, @RequestParam("seller_id") Integer sellerId) {
-       return imageService.uploadFile(file, sellerId);
+    public String handleFileUpload(@RequestParam("image") MultipartFile file, @RequestParam("product_id") Integer productId) {
+       return imageService.uploadFile(file, productId);
     }
 }
