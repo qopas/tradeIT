@@ -14,12 +14,12 @@ public class UserDTO {
     private String name;
     private String username;
     private String email;
-    public UserDTO UserDTO(User user) {
+    public UserDTO UserDTO(Users users) {
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getFirstName()+ " " + user.getLastName());
-        userDTO.setUsername(user.getUsername());
-        userDTO.setEmail(user.getEmail());
+        userDTO.setId(users.getId());
+        userDTO.setName(users.getFirstName()+ " " + users.getLastName());
+        userDTO.setUsername(users.getUsername());
+        userDTO.setEmail(users.getEmail());
         return userDTO;
     }
 

@@ -2,7 +2,7 @@ package org.example.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.example.User.Role;
-import org.example.User.User;
+import org.example.User.Users;
 import org.example.User.UserRepository;
 import org.example.security.JwtService;
 
@@ -21,7 +21,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
+        var user = Users.builder()
                 .firstName(request.getFirstname())
                 .lastName(request.getLastname())
                 .username(request.getUsername())

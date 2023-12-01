@@ -1,6 +1,5 @@
-package org.example.TradeProposal;
+package org.example.Barter;
 
-import org.example.Product.Product;
 import org.example.Product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,11 @@ public class TradeProposalService {
     @Autowired
     private ProductRepository productRepository;
     public Map<String, Object> saveProduct(TradeProposalRequest tradeProposalRequest){
-        TradeProposal newProposal = new TradeProposal();
+        Barter newProposal = new Barter();
         newProposal.setOfferedId(productRepository.findById(tradeProposalRequest.getOffered_product_id()).orElse(null));
         newProposal.setRequestedId(productRepository.findById(tradeProposalRequest.getDesired_product_id()).orElse(null));
         newProposal.setStatus("pending");
-        TradeProposal saved = tradeProposalRepository.save(newProposal);
+        Barter saved = tradeProposalRepository.save(newProposal);
         Map<String, Object> response = new HashMap<>();
         response.put("message", tradeProposalRequest.getMessage());
         response.put("proposal_id", saved.getId());

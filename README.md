@@ -9,7 +9,7 @@ Trade-It is a web-based application designed to facilitate bartering between use
 - **Endpoint:** /api/auth/register
 - **Method:** POST
   
-**Headers:** JSON with user's "name", "surname", "username", "email", "role" set to default USER, and "password" fields
+**Headers:** JSON with users's "name", "surname", "username", "email", "role" set to default USER, and "password" fields
 
 **Response:**  JSON with "access_token" and "expires_in" fields
 
@@ -75,7 +75,7 @@ Method: POST
 - **Endpoint:** /api/users/{user_id}
 - **Method:** GET
   
-**Response:** JSON object of the user's information
+**Response:** JSON object of the users's information
 
 ### Image Upload
 - **Endpoint:** /api/image

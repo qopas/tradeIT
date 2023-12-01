@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import org.example.Images.Images;
-import org.example.User.User;
+import org.example.User.Users;
 import org.example.Category.Category;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private User seller;
+    private Users seller;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
