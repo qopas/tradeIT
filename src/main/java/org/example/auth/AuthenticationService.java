@@ -12,9 +12,11 @@ import org.example.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,9 +31,28 @@ public class AuthenticationService {
     private final EmailService emailService;
     public RegistrationResponse register(RegisterRequest request) {
         try {
-            if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+            if(userOptional.isPresent()){
+                if(userOptional.get().isEnabled()){
+                    return new RegistrationResponse(false, "Email already taken.");
+                }
+
+                String token = UUID.randomUUID().toString();
+                VerificationToken verificationToken = verificationTokenRepository.findByUserId(userOptional.get().getId()).orElse(new VerificationToken());
+
+                verificationToken.setUser(userOptional.get());
+                verificationToken.setToken(token);
+                verificationToken.setExpiryDate(verificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
+                verificationTokenRepository.save(verificationToken);
+                emailService.sendVerificationToken(userOptional.get().getEmail(), token);
+
+                return new RegistrationResponse(true, "success");
+            }
+
+            if(userRepository.findByUsername(request.getUsername()).isPresent()){
                 return new RegistrationResponse(false, "Username already taken.");
             }
+
         var user = User.builder()
                 .firstName(request.getFirstname())
                 .lastName(request.getLastname())
@@ -43,11 +64,11 @@ public class AuthenticationService {
         userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken();
-        verificationToken.setUser(user);
-        verificationToken.setToken(token);
-        verificationToken.setExpiryDate(verificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
-        verificationTokenRepository.save(verificationToken);
+        VerificationToken newVerificationToken = new VerificationToken();
+        newVerificationToken.setUser(user);
+        newVerificationToken.setToken(token);
+        newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
+        verificationTokenRepository.save(newVerificationToken);
         emailService.sendVerificationToken(user.getEmail(), token);
             return new RegistrationResponse(true, "success");
         } catch (Exception e) {
@@ -62,7 +83,10 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(()->new UsernameNotFoundException("User not found"));
+        if(!user.isEnabled()){
+            throw new IllegalStateException("Account is not verified");
+        }
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
 
