@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 import java.util.Collection;
 import java.util.List;
 
-@Data
-@Builder
+@Data //generate getters and setters
+@Builder //build object
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,9 +26,9 @@ public class User {
     private String firstName;
     @Column(name = "surname")
     private String lastName;
-    @Column(name = "username",unique = true)
+    @Column(name = "username", unique = true)
     private String username;
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     private String email;
     @Column(name = "password")
     private String password;
