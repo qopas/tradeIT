@@ -38,38 +38,34 @@ public class AuthenticationService {
                 }
 
                 String token = UUID.randomUUID().toString();
-               /* VerificationToken verificationToken = verificationTokenRepository.findByUserId(userOptional.get().getId()).orElse(new VerificationToken());
-
+                VerificationToken verificationToken = verificationTokenRepository.findByUserId(userOptional.get().getId()).orElse(new VerificationToken());
                 verificationToken.setUser(userOptional.get());
                 verificationToken.setToken(token);
                 verificationToken.setExpiryDate(verificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
                 verificationTokenRepository.save(verificationToken);
-                emailService.sendVerificationToken(userOptional.get().getEmail(), token);*/
-
+                emailService.sendVerificationToken(userOptional.get().getEmail(), token);
                 return new RegistrationResponse(true, "success");
             }
-
             if(userRepository.findByUsername(request.getUsername()).isPresent()){
                 return new RegistrationResponse(false, "Username already taken.");
             }
+            var user = User.builder()
+                    .firstName(request.getFirstname())
+                    .lastName(request.getLastname())
+                    .username(request.getUsername())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.user)
+                    .build();
+            userRepository.save(user);
+            String token = UUID.randomUUID().toString();
+            VerificationToken newVerificationToken = new VerificationToken();
+            newVerificationToken.setUser(user);
+            newVerificationToken.setToken(token);
+            newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
+            verificationTokenRepository.save(newVerificationToken);
+            emailService.sendVerificationToken(user.getEmail(), token);
 
-        var user = User.builder()
-                .firstName(request.getFirstname())
-                .lastName(request.getLastname())
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.user)
-                .build();
-        userRepository.save(user);
-
-        /*String token = UUID.randomUUID().toString();
-        VerificationToken newVerificationToken = new VerificationToken();
-        newVerificationToken.setUser(user);
-        newVerificationToken.setToken(token);
-        newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
-        verificationTokenRepository.save(newVerificationToken);
-        emailService.sendVerificationToken(user.getEmail(), token);*/
             return new RegistrationResponse(true, "success");
         } catch (Exception e) {
 
