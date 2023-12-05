@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin
 public class ProductController {
 
 

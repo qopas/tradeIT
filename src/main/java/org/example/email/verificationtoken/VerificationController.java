@@ -6,6 +6,7 @@ import org.example.User.UserRepository;
 import org.example.auth.AuthenticationResponse;
 import org.example.security.JwtService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import java.util.Calendar;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class VerificationController {
 
     private final VerificationTokenRepository verificationTokenRepository;
