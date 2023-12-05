@@ -24,4 +24,10 @@ public class BarterService {
         response.put("proposal_id", saved.getId());
         return response;
     }
+    public void updateStatus(Barter barter){
+        barterRepository.save(barter);
+    }
+    public Barter getBarterById(Integer barterId){
+        return barterRepository.findById(barterId).get();
+    }
 }

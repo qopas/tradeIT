@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.Product.Product;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,7 +21,6 @@ public class Barter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proposal_id")
     private Integer id;
-
     @ManyToOne
     @JoinColumn(name = "offeredProduct_id")
     private Product offeredId;
@@ -28,5 +29,10 @@ public class Barter {
     private Product requestedId;
     @Column(name = "status")
     private String status;
-
+    @Column(name = "initiated_at")
+    private LocalDateTime initiated_at;
+    @Column(name = "last_updated")
+    private LocalDateTime last_updated;
+    @Column(name = "message")
+    private String message;
 }
