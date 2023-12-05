@@ -29,8 +29,8 @@ public class JwtService {
     }
     public String generateToken( UserDetails userDetails) {
         if (userDetails instanceof User){
-            User user = (User) userDetails;
-            String userId = String.valueOf(user.getId());
+            User users = (User) userDetails;
+            String userId = String.valueOf(users.getId());
             return generateToken(userId, new HashMap<>(), userDetails);
         }
         return null;

@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 import org.example.Product.Product;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "TradeProposal")
+@Table(name = "Barter")
 public class Barter {
 
     @Id
@@ -30,9 +31,9 @@ public class Barter {
     @Column(name = "status")
     private String status;
     @Column(name = "initiated_at")
-    private LocalDateTime initiated_at;
+    private Date initiated_at;
     @Column(name = "last_updated")
-    private LocalDateTime last_updated;
+    private Date last_updated;
     @Column(name = "message")
     private String message;
 }

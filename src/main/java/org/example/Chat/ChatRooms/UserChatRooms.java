@@ -7,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.User.User;
 
-@Entity
-@Table(name = "UserChatRoom")
 @Data
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@Entity
+@Table(name = "UserChatRoom")
 public class UserChatRooms {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

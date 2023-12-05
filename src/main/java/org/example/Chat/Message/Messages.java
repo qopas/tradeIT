@@ -10,12 +10,13 @@ import org.example.User.User;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "Messages")
+
 @Data
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@Entity
+@Table(name = "Messages")
 public class Messages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

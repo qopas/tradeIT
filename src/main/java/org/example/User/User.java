@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Users")
+@Table(name = "User")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,18 +35,11 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(name = "phone")
+    private String phone;
     @Column(name = "enabled")
     private boolean enabled;
 
-    public User(String firstName, String lastName, String username, String email, String password, Role role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.enabled = false;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

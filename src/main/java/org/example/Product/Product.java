@@ -49,7 +49,8 @@ public class Product {
 
     @Column(name = "status")
     private String status;
-    @Column(name = "city")
+    @ManyToOne
+    @JoinColumn(name = "city_id")
     private City city;
 
     @Transient

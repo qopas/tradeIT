@@ -1,9 +1,6 @@
 package org.example.City;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +14,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "Cities")
 public class City {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "city_id")
     private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "city_name")
+    private String city_name;
 
 }

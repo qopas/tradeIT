@@ -37,11 +37,9 @@ public class BarterController {
         if (barter == null) {
             return new ResponseEntity<>("Barter not found", HttpStatus.NOT_FOUND);
         }
-        // Check if the user making the request is authorized using Spring Security annotations
         if (!isUserAuthorized(userDetails, barter)) {
             return new ResponseEntity<>("Not authorized to update status", HttpStatus.valueOf(403));
         }
-
         String newStatus = request.getStatus().toLowerCase();
         barter.setStatus(newStatus);
         barterService.updateStatus(barter);
