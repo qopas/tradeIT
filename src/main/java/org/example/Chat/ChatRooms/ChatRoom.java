@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Chat.ChatRooms;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
