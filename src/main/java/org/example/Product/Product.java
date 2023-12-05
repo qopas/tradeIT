@@ -41,8 +41,8 @@ public class Product {
     @Column(name = "condition")
     private String condition;
 
-    @Column(name = "targetProducts")
-    private String targetProducts;
+    @Column(name = "target_products")
+    private String target_products;
 
     @Column(name = "details")
     private String details;
@@ -50,7 +50,7 @@ public class Product {
     @Column(name = "status")
     private String status;
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city")
     private City city;
 
     @Transient

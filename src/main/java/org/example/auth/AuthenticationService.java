@@ -31,20 +31,20 @@ public class AuthenticationService {
     private final EmailService emailService;
     public RegistrationResponse register(RegisterRequest request) {
         try {
-            Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+            Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(request.getEmail()).orElse(null));
             if(userOptional.isPresent()){
                 if(userOptional.get().isEnabled()){
                     return new RegistrationResponse(false, "Email already taken.");
                 }
 
                 String token = UUID.randomUUID().toString();
-                VerificationToken verificationToken = verificationTokenRepository.findByUserId(userOptional.get().getId()).orElse(new VerificationToken());
+               /* VerificationToken verificationToken = verificationTokenRepository.findByUserId(userOptional.get().getId()).orElse(new VerificationToken());
 
                 verificationToken.setUser(userOptional.get());
                 verificationToken.setToken(token);
                 verificationToken.setExpiryDate(verificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
                 verificationTokenRepository.save(verificationToken);
-                emailService.sendVerificationToken(userOptional.get().getEmail(), token);
+                emailService.sendVerificationToken(userOptional.get().getEmail(), token);*/
 
                 return new RegistrationResponse(true, "success");
             }
@@ -63,13 +63,13 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
 
-        String token = UUID.randomUUID().toString();
+        /*String token = UUID.randomUUID().toString();
         VerificationToken newVerificationToken = new VerificationToken();
         newVerificationToken.setUser(user);
         newVerificationToken.setToken(token);
         newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
         verificationTokenRepository.save(newVerificationToken);
-        emailService.sendVerificationToken(user.getEmail(), token);
+        emailService.sendVerificationToken(user.getEmail(), token);*/
             return new RegistrationResponse(true, "success");
         } catch (Exception e) {
 

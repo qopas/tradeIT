@@ -25,7 +25,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<List<ProductDTO>> getProducts(
             @RequestParam(required = false) Integer category,
             @RequestParam(required = false) String condition,
