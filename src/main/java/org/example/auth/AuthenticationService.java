@@ -77,16 +77,16 @@ public class AuthenticationService {
         }    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(()->new UsernameNotFoundException("User not found"));
+        if(!user.isEnabled()){
+            throw new IllegalStateException("Account is not verified");
+        }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(()->new UsernameNotFoundException("User not found"));
-        if(!user.isEnabled()){
-            throw new IllegalStateException("Account is not verified");
-        }
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
 
