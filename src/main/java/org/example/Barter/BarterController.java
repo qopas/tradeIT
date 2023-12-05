@@ -39,7 +39,7 @@ public class BarterController {
         }
         // Check if the user making the request is authorized using Spring Security annotations
         if (!isUserAuthorized(userDetails, barter)) {
-            return new ResponseEntity<>("Not authorized to update status", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Not authorized to update status", HttpStatus.valueOf(403));
         }
 
         String newStatus = request.getStatus().toLowerCase();
