@@ -1,4 +1,4 @@
-package org.example.Barter;
+package org.example.TradeProposal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

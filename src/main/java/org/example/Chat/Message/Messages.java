@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.Chat.ChatRooms.ChatRoom;
-import org.example.User.Users;
+import org.example.User.User;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +28,7 @@ public class Messages {
 
     @ManyToOne
     @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
-    private Users sender;
+    private User sender;
 
     @Column(name = "messageText", nullable = false, columnDefinition = "TEXT")
     private String messageText;

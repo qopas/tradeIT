@@ -1,9 +1,14 @@
 package org.example.Product;
 
+import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
+import io.minio.UploadObjectArgs;
+import io.minio.http.Method;
 import org.example.Category.CategoryRepository;
 import org.example.Images.Images;
 import org.example.Images.ImagesRepository;
-import org.example.User.Users;
+import org.example.User.User;
 import org.example.User.UserDTO;
 import org.example.User.UserRepository;
 import org.jetbrains.annotations.NotNull;
@@ -14,9 +19,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.criteria.Predicate;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProductService {
@@ -75,7 +83,7 @@ public class ProductService {
     public ProductDTO mapProductToDTO(@NotNull Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
-        Users seller = product.getSeller();
+        User seller = product.getSeller();
         UserDTO sellerInfo = new UserDTO(seller.getId(), seller.getFirstName() + " " + seller.getLastName(), seller.getUsername(), seller.getEmail());
         dto.setSeller(sellerInfo);
         dto.setProductName(product.getProductName());

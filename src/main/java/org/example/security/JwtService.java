@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.example.User.Users;
+import org.example.User.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +28,9 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
     public String generateToken( UserDetails userDetails) {
-        if (userDetails instanceof Users){
-            Users users = (Users) userDetails;
-            String userId = String.valueOf(users.getId());
+        if (userDetails instanceof User){
+            User user = (User) userDetails;
+            String userId = String.valueOf(user.getId());
             return generateToken(userId, new HashMap<>(), userDetails);
         }
         return null;

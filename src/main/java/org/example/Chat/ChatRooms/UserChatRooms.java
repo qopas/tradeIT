@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.User.Users;
+import org.example.User.User;
 
 @Entity
 @Table(name = "UserChatRoom")
@@ -21,7 +21,7 @@ public class UserChatRooms {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private Users user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "room_id", referencedColumnName = "room_id")
