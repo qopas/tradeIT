@@ -1,24 +1,20 @@
-package org.example.TradeProposal;
+package org.example.Barter;
 
-import org.example.Product.Product;
-import org.example.Product.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/barters")
-public class TradeProposalController {
+public class BarterController {
     @Autowired
-    private TradeProposalService tradeProposalService;
+    private BarterService barterService;
     @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> newProposal(@RequestBody TradeProposalRequest tradeProposal){
-        return new ResponseEntity<>(tradeProposalService.saveProduct(tradeProposal), HttpStatus.CREATED);
+    public ResponseEntity<Map<String, Object>> newProposal(@RequestBody BarterRequest tradeProposal){
+        return new ResponseEntity<>(barterService.saveProduct(tradeProposal), HttpStatus.CREATED);
     }
 
     /** TO DO:

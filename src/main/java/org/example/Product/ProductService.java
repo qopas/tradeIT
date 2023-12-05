@@ -6,6 +6,7 @@ import io.minio.PutObjectArgs;
 import io.minio.UploadObjectArgs;
 import io.minio.http.Method;
 import org.example.Category.CategoryRepository;
+import org.example.City.CityRepository;
 import org.example.Images.Images;
 import org.example.Images.ImagesRepository;
 import org.example.User.User;
@@ -34,6 +35,8 @@ public class ProductService {
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CityRepository cityRepository;
 
     @Autowired
     private ImagesRepository imagesRepository;
@@ -69,6 +72,7 @@ public class ProductService {
             product.setDetails(productRequest.getDetails());
             product.setTargetProducts(productRequest.getTargetProducts());
             product.setStatus("Available");
+            product.setCity(cityRepository.findById(productRequest.getCity_id()).get());
             Product saved = productRepository.save(product);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Product '" + productRequest.getName() + "' created successfully.");
@@ -98,6 +102,7 @@ public class ProductService {
         dto.setImageURL(imgUrls);
         dto.setDescription(product.getDescription());
         dto.setCondition(product.getCondition());
+        dto.setCity(product.getCity());
         return dto;
     }
     public  List<ProductDTO> getProducts(Integer category, String condition, Integer seller, String name){

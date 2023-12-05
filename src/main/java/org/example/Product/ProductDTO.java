@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.Category.Category;
+import org.example.City.City;
 import org.example.User.UserDTO;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class ProductDTO {
     private String targetProducts;
     private String details;
     private String status;
+    private City city;
     private List<String> imageURL;
 
 

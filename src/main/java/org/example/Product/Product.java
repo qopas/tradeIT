@@ -1,10 +1,12 @@
 package org.example.Product;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
+import org.example.City.City;
 import org.example.Images.Images;
 import org.example.User.User;
 import org.example.Category.Category;
@@ -47,6 +49,8 @@ public class Product {
 
     @Column(name = "status")
     private String status;
+    @Column(name = "city")
+    private City city;
 
     @Transient
     private List<Images> images;

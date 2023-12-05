@@ -17,4 +17,5 @@ public class ProductRequest {
     private String details;
     private String condition;
     private String targetProducts;
+    private Integer city_id;
 }

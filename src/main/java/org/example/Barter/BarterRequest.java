@@ -1,4 +1,4 @@
-package org.example.TradeProposal;
+package org.example.Barter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TradeProposalRequest {
+public class BarterRequest {
     private Integer offered_product_id;
     private Integer desired_product_id;
     private String message;
