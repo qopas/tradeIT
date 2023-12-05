@@ -68,7 +68,7 @@ public class ProductService {
             product.setCondition(productRequest.getCondition());
             product.setDetails(productRequest.getDetails());
             product.setTargetProducts(productRequest.getTargetProducts());
-            product.setStatus("Available");
+            product.setStatus("available");
             Product saved = productRepository.save(product);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Product '" + productRequest.getName() + "' created successfully.");
