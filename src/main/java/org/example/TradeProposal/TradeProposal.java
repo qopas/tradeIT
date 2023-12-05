@@ -1,4 +1,4 @@
-package org.example.Barter;
+package org.example.TradeProposal;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,8 @@ import org.example.Product.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "Barter")
-public class Barter {
+@Table(name = "TradeProposal")
+public class TradeProposal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

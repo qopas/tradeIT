@@ -15,7 +15,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/{user_id}")
-    public ResponseEntity<Users> getUser(
+    public ResponseEntity<User> getUser(
             @PathVariable Integer user_id
     ){
         return new ResponseEntity<>(userRepository.findById(user_id).orElse(null), HttpStatus.OK);

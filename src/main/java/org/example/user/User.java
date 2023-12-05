@@ -30,10 +30,10 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "password")
     private String password;
-
-
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Column(name = "enabled")
+    private boolean enabled;
 
     public User(String firstName, String lastName, String username, String email, String password, Role role) {
         this.firstName = firstName;
@@ -42,6 +42,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.enabled = false;
     }
 
     @Override
@@ -67,7 +68,9 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
+
+
 
 }
