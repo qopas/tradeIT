@@ -21,7 +21,7 @@ public class EmailService {
             msg.setTo(email);
             msg.setSubject("Verification Token");
             msg.setText("To confirm your account, please click here : "
-                    + "http://localhost:8080/api/auth/registration/confirm?token=" + token);
+                    + "http://localhost:3000?emailToken=" + token);
             javaMailSender.send(msg);
         } catch (Exception e) {
             System.out.println(e);

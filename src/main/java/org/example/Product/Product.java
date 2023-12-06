@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +27,10 @@ public class Product {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User seller;
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
 
     @Column(name = "product_name")
@@ -41,8 +42,8 @@ public class Product {
     @Column(name = "condition")
     private String condition;
 
-    @Column(name = "target_products")
-    private String target_products;
+    @Column(name = "targetProducts")
+    private String targetProducts;
 
     @Column(name = "details")
     private String details;
