@@ -31,20 +31,20 @@ public class AuthenticationService {
     private final EmailService emailService;
     public RegistrationResponse register(RegisterRequest request) {
         try {
-            Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(request.getEmail()).orElse(null));
+            Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
             if(userOptional.isPresent()){
                 if(userOptional.get().isEnabled()){
                     return new RegistrationResponse(false, "Email already taken.");
                 }
 
                 String token = UUID.randomUUID().toString();
-               /* VerificationToken verificationToken = verificationTokenRepository.findByUserId(userOptional.get().getId()).orElse(new VerificationToken());
+                VerificationToken verificationToken = verificationTokenRepository.findByUserId(userOptional.get().getId()).orElse(new VerificationToken());
 
                 verificationToken.setUser(userOptional.get());
                 verificationToken.setToken(token);
                 verificationToken.setExpiryDate(verificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
                 verificationTokenRepository.save(verificationToken);
-                emailService.sendVerificationToken(userOptional.get().getEmail(), token);*/
+                emailService.sendVerificationToken(userOptional.get().getEmail(), token);
 
                 return new RegistrationResponse(true, "success");
             }
@@ -53,23 +53,23 @@ public class AuthenticationService {
                 return new RegistrationResponse(false, "Username already taken.");
             }
 
-        var user = User.builder()
-                .firstName(request.getFirstname())
-                .lastName(request.getLastname())
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.user)
-                .build();
-        userRepository.save(user);
+            var user = User.builder()
+                    .firstName(request.getFirstname())
+                    .lastName(request.getLastname())
+                    .username(request.getUsername())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.user)
+                    .build();
+            userRepository.save(user);
 
-        /*String token = UUID.randomUUID().toString();
-        VerificationToken newVerificationToken = new VerificationToken();
-        newVerificationToken.setUser(user);
-        newVerificationToken.setToken(token);
-        newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
-        verificationTokenRepository.save(newVerificationToken);
-        emailService.sendVerificationToken(user.getEmail(), token);*/
+            String token = UUID.randomUUID().toString();
+            VerificationToken newVerificationToken = new VerificationToken();
+            newVerificationToken.setUser(user);
+            newVerificationToken.setToken(token);
+            newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
+            verificationTokenRepository.save(newVerificationToken);
+            emailService.sendVerificationToken(user.getEmail(), token);
             return new RegistrationResponse(true, "success");
         } catch (Exception e) {
 

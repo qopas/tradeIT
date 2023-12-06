@@ -70,7 +70,7 @@ public class ProductService {
             product.setDescription(productRequest.getDescription());
             product.setCondition(productRequest.getCondition());
             product.setDetails(productRequest.getDetails());
-            product.setTarget_products(productRequest.getTargetProducts());
+            product.setTargetProducts(productRequest.getTargetProducts());
             product.setStatus("Available");
             product.setCity(cityRepository.findById(productRequest.getCity_id()).get());
             Product saved = productRepository.save(product);
@@ -93,7 +93,7 @@ public class ProductService {
         dto.setProductName(product.getProductName());
         dto.setCategory(product.getCategory());
         dto.setDetails(product.getDetails());
-        dto.setTargetProducts(product.getTarget_products());
+        dto.setTargetProducts(product.getTargetProducts());
         dto.setStatus(product.getStatus());
         List<String> imgUrls = imagesRepository.findByProductIdId(product.getId())
                 .stream()
