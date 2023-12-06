@@ -65,23 +65,6 @@ public class AuthenticationService {
             newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
             verificationTokenRepository.save(newVerificationToken);
             emailService.sendVerificationToken(user.getEmail(), token);
-            var user = User.builder()
-                    .firstName(request.getFirstname())
-                    .lastName(request.getLastname())
-                    .username(request.getUsername())
-                    .email(request.getEmail())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.user)
-                    .build();
-            userRepository.save(user);
-
-            String token = UUID.randomUUID().toString();
-            VerificationToken newVerificationToken = new VerificationToken();
-            newVerificationToken.setUser(user);
-            newVerificationToken.setToken(token);
-            newVerificationToken.setExpiryDate(newVerificationToken.calculateExpiryDate(VerificationToken.EXPIRATION));
-            verificationTokenRepository.save(newVerificationToken);
-            emailService.sendVerificationToken(user.getEmail(), token);
             return new RegistrationResponse(true, "success");
         } catch (Exception e) {
 
