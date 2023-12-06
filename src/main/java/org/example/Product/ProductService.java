@@ -16,10 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -40,22 +38,28 @@ public class ProductService {
 
     @Autowired
     private ImagesRepository imagesRepository;
-    public Specification<Product> buildProductSpecification(Integer categoryId, String condition, Integer seller, String name) {
+    public Specification<Product> buildProductSpecification(List<Integer> categoryIds, String condition, Integer seller, String name, List<Integer> cityIds) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (categoryId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("category").get("categoryId"), categoryId));
+
+            if (categoryIds != null && !categoryIds.isEmpty()) {
+                predicates.add(root.get("category").get("categoryId").in(categoryIds));
             }
 
             if (condition != null) {
                 predicates.add(criteriaBuilder.equal(root.get("condition"), condition));
             }
+
             if (seller != null) {
                 predicates.add(criteriaBuilder.equal(root.get("seller").get("id"), seller));
             }
 
             if (name != null) {
                 predicates.add(criteriaBuilder.like(root.get("productName"), "%" + name + "%"));
+            }
+
+            if (cityIds != null && !cityIds.isEmpty()) {
+                predicates.add(root.get("city").get("city_id").in(cityIds));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -105,14 +109,26 @@ public class ProductService {
         dto.setCity(product.getCity());
         return dto;
     }
-    public  List<ProductDTO> getProducts(Integer category, String condition, Integer seller, String name){
-        Specification<Product> specification = buildProductSpecification(category, condition, seller, name);
+    public List<ProductDTO> getProducts(String category, String condition, Integer seller, String name, String city_ids) {
+        List<Integer> categoryIds = parseCommaSeparatedValues(category);
+        List<Integer> cityIds = parseCommaSeparatedValues(city_ids);
+        Specification<Product> specification = buildProductSpecification(categoryIds, condition, seller, name, cityIds);
         List<Product> products = productRepository.findAll(specification);
         List<ProductDTO> productDTOs = new ArrayList<>();
-        for(Product product: products){
+
+        for (Product product : products) {
             productDTOs.add(mapProductToDTO(product));
         }
+
         return productDTOs;
+    }
+    private List<Integer> parseCommaSeparatedValues(String input) {
+        if (input != null && !input.isEmpty()) {
+            return Arrays.stream(input.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
 }
