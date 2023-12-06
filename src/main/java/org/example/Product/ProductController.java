@@ -1,8 +1,11 @@
 package org.example.Product;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.example.User.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,13 +30,14 @@ public class ProductController {
 
     @GetMapping("")
     public ResponseEntity<List<ProductDTO>> getProducts(
-            @RequestParam(required = false) Integer category,
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) String condition,
             @RequestParam(required = false) Integer seller,
-            @RequestParam(required = false) String name
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String city_id,
+            @AuthenticationPrincipal User userDetails
     ) {
-
-        return new ResponseEntity<>(productService.getProducts(category, condition, seller, name), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getProducts(category, condition, userDetails.getId(), name, city_id), HttpStatus.OK);
     }
     @GetMapping("/{product_id}")
     public ResponseEntity<ProductDTO> getProducts(
