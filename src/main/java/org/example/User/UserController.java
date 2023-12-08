@@ -2,12 +2,16 @@ package org.example.User;
 
 import org.example.Barter.BarterDTO;
 import org.example.Barter.BarterService;
+import org.example.Notifications.Notification;
+import org.example.Notifications.NotificationDTO;
+import org.example.Notifications.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,6 +21,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private BarterService barterService;
+    @Autowired
+    private NotificationService notificationService;
     @GetMapping("/{user_id}")
     public ResponseEntity<User> getUser(
             @PathVariable Integer user_id
@@ -32,5 +38,13 @@ public class UserController {
         } else {
             return new ResponseEntity<>(userBarters, HttpStatus.OK);
         }
+    }
+    @GetMapping("/notification")
+    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@RequestHeader Integer user_id) {
+        List<NotificationDTO> notifications = notificationService.getNotificationsByUserId(user_id)
+                .stream()
+                .map(NotificationDTO::mapToDTO)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 }

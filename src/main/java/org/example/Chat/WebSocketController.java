@@ -25,13 +25,14 @@ public class WebSocketController {
     @Autowired
     private UserRepository userRepository;
 
-    @MessageMapping("/sendMessage/{id}")
-    @SendTo("/topic/{id}")
-    public MessageDTO sendMessage(@Payload MessagePayload message, @DestinationVariable("id") Integer id) {
+    @MessageMapping("/sendMessage/{room_id}")
+    @SendTo("/topic/{room_id}")
+    public MessageDTO sendMessage(@Payload MessagePayload message) {
         System.out.println("Received WebSocket message: " + message.toString());
-        Messages saved = messageService.saveMessage(message, 1);
+        Messages saved = messageService.saveMessage(message, message.getTargetUserId());
         UserDTO userDTO = UserDTO.fromUser(userRepository.findById(message.getSenderId()).get());
         MessageDTO m =  new MessageDTO(
+                saved.getChatRoom().getId(),
                 saved.getChatRoom().getId(),
                 saved.getId(),
                 userDTO,

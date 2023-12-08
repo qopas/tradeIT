@@ -42,7 +42,7 @@ public class ChatRoomsServices {
         UserDTO targetUser = findTargetUser(usersInChat, userId); // Implement this method
         boolean isRead = false;
         List<Messages> messages = messagesRepository.findByChatRoom_IdOrderByTimestamp(chatRoom.getId());
-        MessageDTO lastMessage = messages.isEmpty() ? null : MessageDTO.mapFromMessage(messages.get(0));
+        MessageDTO lastMessage = messages.isEmpty() ? null : MessageDTO.mapFromMessage(messages.get(messages.size()-1));
 
         return ChatRoomDTO.builder()
                 .id(chatRoom.getId())

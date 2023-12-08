@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
+import org.example.Barter.Barter;
 import org.example.User.User;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -27,6 +28,12 @@ public class Notification {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
+    @Column(name = "type")
+    private String type;
+    @ManyToOne
+    @JoinColumn(name = "proposal_id", referencedColumnName = "proposal_id")
+    private Barter barter_id;
+
     @Column(name = "message", columnDefinition = "nvarchar(MAX)")
     private String message;
 
@@ -34,6 +41,6 @@ public class Notification {
     private String status;
 
     @Column(name = "timestamp")
-    private Date timestamp;
+    private LocalDate timestamp;
 
 }

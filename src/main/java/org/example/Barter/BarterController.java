@@ -1,6 +1,10 @@
 package org.example.Barter;
 
 import org.checkerframework.checker.units.qual.A;
+import org.example.Notifications.Notification;
+import org.example.Notifications.NotificationDTO;
+import org.example.Notifications.NotificationRepository;
+import org.example.Notifications.NotificationService;
 import org.example.Product.Product;
 import org.example.Product.ProductRepository;
 import org.example.User.User;
@@ -12,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -25,6 +30,8 @@ public class BarterController {
     private UserRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private NotificationService notificationService;
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> newProposal(@RequestBody BarterRequest tradeProposal){
         return new ResponseEntity<>(barterService.saveProduct(tradeProposal), HttpStatus.CREATED);
@@ -62,6 +69,15 @@ public class BarterController {
             productRepository.save(product);
             productRepository.save(product2);
         }
+        Notification newNotification = new Notification();
+        newNotification.setBarter_id(barter);
+        newNotification.setUser(userRepository.findById(userId).get());
+        newNotification.setType(status.getStatus());
+        newNotification.setStatus("unread");
+        newNotification.setMessage("Barter Proposal with user " + userRepository.findById(userId).get().getUsername() + " is " + status.getStatus());
+        newNotification.setTimestamp(LocalDate.now());
+        notificationService.save(newNotification);
+        notificationService.notifyNewBarter(newNotification);
         barter.setStatus(newStatus);
         barterService.updateStatus(barter);
         return new ResponseEntity<>("Status updated successfully", HttpStatus.OK);

@@ -13,4 +13,5 @@ public class MessagePayload {
     private Integer id;
     private String message;
     private Integer senderId;
+    private Integer targetUserId;
 }

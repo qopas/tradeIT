@@ -16,4 +16,10 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Integer> {
             "JOIN UserChatRoom ucr ON c.room_id = ucr.room_id " +
             "WHERE ucr.user_id = :user_id", nativeQuery = true)
     List<ChatRoom> findChatRoomsByUserId(@Param("user_id") Integer userId);
+    @Query(value = "SELECT cr.* FROM ChatRooms cr " +
+            "JOIN UserChatRoom ucr1 ON cr.room_id = ucr1.room_id " +
+            "JOIN UserChatRoom ucr2 ON cr.room_id = ucr2.room_id " +
+            "WHERE ucr1.user_id = :userId1 AND ucr2.user_id = :userId2", nativeQuery = true)
+    List<ChatRoom> findChatRoomsByUserIds(@Param("userId1") Integer userId1,
+                                          @Param("userId2") Integer userId2);
 }

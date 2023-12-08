@@ -28,8 +28,9 @@ public class MessageService {
     }
 
     public Messages saveMessage(MessagePayload message, Integer reciverId) {
+        List<ChatRoom> chatRooms = chatRoomRepository.findChatRoomsByUserIds(message.getSenderId(),reciverId);
         ChatRoom chatRoom;
-        if (message.getId() == -1) {
+        if (chatRooms.isEmpty()) {
             chatRoom = new ChatRoom();
             chatRoom.setRoomName("chat");
             ChatRoom c = chatRoomRepository.save(chatRoom);
@@ -44,8 +45,8 @@ public class MessageService {
             userChatRoomRepository.save(userChatRoom1);
             userChatRoomRepository.save(userChatRoom2);
         }
-        else {
-            chatRoom =  chatRoomRepository.findById(message.getId()).orElse(null);
+        else{
+            chatRoom = chatRooms.get(0);
         }
         Messages m = new Messages();
         m.setChatRoom(chatRoom);

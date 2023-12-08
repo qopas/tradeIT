@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.Chat.UserChatRoom.UserChatRooms;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +23,8 @@ public class ChatRoom {
 
     @Column(name = "roomName", nullable = false)
     private String roomName;
+    @OneToMany(mappedBy = "chatRoom")
+    private Set<UserChatRooms> userChatRooms;
 
 
 }

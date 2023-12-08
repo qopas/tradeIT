@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageDTO {
+    private Integer roomId;
     private Integer id;
     private Integer messageId;
     private UserDTO sender;
@@ -21,6 +22,7 @@ public class MessageDTO {
 
     public static MessageDTO mapFromMessage(Messages message){
         return new MessageDTO(
+                message.getChatRoom().getId(),
                 message.getChatRoom().getId(),
                 message.getId(),
                 UserDTO.fromUser(message.getSender()),
