@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/api/images")
 @CrossOrigin
 public class ImageController {
     @Autowired

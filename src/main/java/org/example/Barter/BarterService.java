@@ -6,10 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +21,8 @@ public class BarterService {
         newProposal.setOfferedId(productRepository.findById(barterRequest.getOffered_product_id()).orElse(null));
         newProposal.setRequestedId(productRepository.findById(barterRequest.getDesired_product_id()).orElse(null));
         newProposal.setStatus("pending");
+        newProposal.setInitialize_at(LocalDate.now());
+        newProposal.setLast_updated(LocalDate.now());
         Barter saved = barterRepository.save(newProposal);
         Map<String, Object> response = new HashMap<>();
         response.put("message", barterRequest.getMessage());

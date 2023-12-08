@@ -28,15 +28,22 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<ProductDTO>> getProducts(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String condition,
             @RequestParam(required = false) Integer seller,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) String city_id
+            @RequestParam(required = false) String city_id,
+            @RequestParam(required = false) String status
     ) {
-        return new ResponseEntity<>(productService.getProducts(category, condition, seller, name, city_id), HttpStatus.OK);
+        if(status == null){
+            status = "Available";
+        }
+        if(status.equals("all")){
+            status = null;
+        }
+        return new ResponseEntity<>(productService.getProducts(category, condition, seller, name, city_id, status), HttpStatus.OK);
     }
     @GetMapping("/{product_id}")
     public ResponseEntity<ProductDTO> getProducts(

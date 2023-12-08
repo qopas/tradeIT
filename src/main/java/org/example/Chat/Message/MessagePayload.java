@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class MessagePayload {
-    private Integer roomId;
-    private Integer senderId;
+    private Integer id;
     private String message;
-    private String language;
+    private Integer senderId;
 }

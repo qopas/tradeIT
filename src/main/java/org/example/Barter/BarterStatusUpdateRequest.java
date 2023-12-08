@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 @Data
 public class BarterStatusUpdateRequest {
     private String status;
-    private Integer user_id;
 }

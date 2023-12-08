@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.example.Chat.Message.MessageDTO;
 import org.example.User.UserDTO;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +17,6 @@ public class ChatRoomDTO {
     private Integer id;
     private UserDTO targetUser;
     private boolean isRead;
-    private MessageDTO lastMessage;
+    private List<MessageDTO> messages;
 
 }

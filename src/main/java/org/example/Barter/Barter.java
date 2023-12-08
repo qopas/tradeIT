@@ -6,8 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.Product.Product;
+import org.example.User.User;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -31,9 +32,11 @@ public class Barter {
     @Column(name = "status")
     private String status;
     @Column(name = "initialize_at")
-    private Date initialize_at;
+    private LocalDate initialize_at;
     @Column(name = "last_updated")
-    private Date last_updated;
+    private LocalDate last_updated;
     @Column(name = "message")
     private String message;
+    @Column(name = "first_to_complete_id")
+    private Integer first_to_complete_id;
 }

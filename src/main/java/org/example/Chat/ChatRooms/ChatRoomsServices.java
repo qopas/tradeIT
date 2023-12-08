@@ -5,12 +5,13 @@ import org.example.Chat.Message.MessageRepository;
 import org.example.Chat.Message.Messages;
 import org.example.Chat.UserChatRoom.UserChatRoomRepository;
 import org.example.Chat.UserChatRoom.UserChatRooms;
-import org.example.User.User;
 import org.example.User.UserDTO;
 import org.example.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,9 @@ public class ChatRoomsServices {
                 .id(chatRoom.getId())
                 .targetUser(targetUser)
                 .isRead(isRead)
-                .lastMessage(lastMessage)
+                .messages(
+                        new ArrayList<>(Collections.singletonList(lastMessage)
+                ))
                 .build();
     }
     private UserDTO findTargetUser(List<UserChatRooms> usersInChat, Integer userId) {

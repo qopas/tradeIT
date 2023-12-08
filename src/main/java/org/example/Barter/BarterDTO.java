@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -22,13 +23,12 @@ public class BarterDTO {
 
     private String status;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
-    private Date initiated_at;
+    private LocalDate initiated_at;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
-    private Date last_updated;
+    private LocalDate last_updated;
 
     private String message;
+    private Integer first_to_complete_id;
 
     public static BarterDTO fromEntity(Barter barter) {
         return BarterDTO.builder()
@@ -39,6 +39,7 @@ public class BarterDTO {
                 .initiated_at(barter.getInitialize_at())
                 .last_updated(barter.getLast_updated())
                 .message(barter.getMessage())
+                .first_to_complete_id(barter.getFirst_to_complete_id())
                 .build();
     }
 }

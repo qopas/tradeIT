@@ -38,7 +38,7 @@ public class ProductService {
 
     @Autowired
     private ImagesRepository imagesRepository;
-    public Specification<Product> buildProductSpecification(List<Integer> categoryIds, String condition, Integer seller, String name, List<Integer> cityIds) {
+    public Specification<Product> buildProductSpecification(List<Integer> categoryIds, String condition, Integer seller, String name, List<Integer> cityIds, String status) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -57,7 +57,9 @@ public class ProductService {
             if (name != null) {
                 predicates.add(criteriaBuilder.like(root.get("productName"), "%" + name + "%"));
             }
-
+            if (status != null) {
+                predicates.add(criteriaBuilder.like(root.get("status"),  status ));
+            }
             if (cityIds != null && !cityIds.isEmpty()) {
                 predicates.add(root.get("city").get("city_id").in(cityIds));
             }
@@ -109,10 +111,10 @@ public class ProductService {
         dto.setCity(product.getCity());
         return dto;
     }
-    public List<ProductDTO> getProducts(String category, String condition, Integer seller, String name, String city_ids) {
+    public List<ProductDTO> getProducts(String category, String condition, Integer seller, String name, String city_ids, String status) {
         List<Integer> categoryIds = parseCommaSeparatedValues(category);
         List<Integer> cityIds = parseCommaSeparatedValues(city_ids);
-        Specification<Product> specification = buildProductSpecification(categoryIds, condition, seller, name, cityIds);
+        Specification<Product> specification = buildProductSpecification(categoryIds, condition, seller, name, cityIds, status);
         List<Product> products = productRepository.findAll(specification);
         List<ProductDTO> productDTOs = new ArrayList<>();
 

@@ -1,12 +1,17 @@
 package org.example.Barter;
 
+import org.checkerframework.checker.units.qual.A;
+import org.example.Product.Product;
+import org.example.Product.ProductRepository;
 import org.example.User.User;
+import org.example.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -16,6 +21,10 @@ import java.util.stream.Collectors;
 public class BarterController {
     @Autowired
     private BarterService barterService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> newProposal(@RequestBody BarterRequest tradeProposal){
         return new ResponseEntity<>(barterService.saveProduct(tradeProposal), HttpStatus.CREATED);
@@ -30,20 +39,29 @@ public class BarterController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PatchMapping("/{barter_id}/status")
+    @PatchMapping("/{barter_id}")
     public ResponseEntity<String> updateBarterStatus(
             @PathVariable("barter_id") Integer barterId,
-            @RequestBody BarterStatusUpdateRequest request,
-            @AuthenticationPrincipal User userDetails) {
+            @RequestBody() BarterStatusUpdateRequest status,
+            @RequestHeader("user_id") Integer userId) {
 
         Barter barter = barterService.getBarterById(barterId);
         if (barter == null) {
             return new ResponseEntity<>("Barter not found", HttpStatus.NOT_FOUND);
         }
-        if (!isUserAuthorized(userDetails, barter)) {
-            return new ResponseEntity<>("Not authorized to update status", HttpStatus.valueOf(403));
+        String newStatus = status.getStatus().toLowerCase();
+        barter.setLast_updated(LocalDate.now());
+        if(newStatus.equals("completion_pending")){
+            barter.setFirst_to_complete_id(userId);
         }
-        String newStatus = request.getStatus().toLowerCase();
+        if(newStatus.equals("accepted")){
+            Product product = productRepository.findById(barter.getOfferedId().getId()).get();
+            Product product2 = productRepository.findById(barter.getRequestedId().getId()).get();
+            product.setStatus("Unavailable");
+            product2.setStatus("Unavailable");
+            productRepository.save(product);
+            productRepository.save(product2);
+        }
         barter.setStatus(newStatus);
         barterService.updateStatus(barter);
         return new ResponseEntity<>("Status updated successfully", HttpStatus.OK);
