@@ -4,10 +4,13 @@ import org.example.Chat.Message.MessageDTO;
 import org.example.Chat.Message.MessagePayload;
 import org.example.Chat.Message.MessageService;
 import org.example.Chat.Message.Messages;
+import org.example.Notifications.Notification;
+import org.example.Notifications.NotificationDTO;
 import org.example.User.UserDTO;
 import org.example.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -24,7 +27,8 @@ public class WebSocketController {
     private MessageService messageService;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
     @MessageMapping("/sendMessage/{room_id}")
     @SendTo("/topic/{room_id}")
     public MessageDTO sendMessage(@Payload MessagePayload message) {
@@ -40,5 +44,9 @@ public class WebSocketController {
                 LocalDateTime.now()
         );
         return m;
+    }
+    public void sendNotification(Notification notification) {
+        Integer userID=notification.getUser().getId();
+        messagingTemplate.convertAndSend("/queue/notification/" + userID, NotificationDTO.mapToDTO(notification));
     }
 }

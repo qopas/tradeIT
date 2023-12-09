@@ -70,17 +70,30 @@ public class BarterController {
             productRepository.save(product2);
         }
         Notification newNotification = new Notification();
+        Integer notificationUserId;
+        if(barter.getOfferedId().getSeller().getId().equals(userId)){
+            newNotification.setUser((barter.getRequestedId().getSeller()));
+        }
+        else {
+            newNotification.setUser((barter.getOfferedId().getSeller()));
+        }
+        String statut;
+        if(status.getStatus().equals("completion_pending")){
+            statut = "waiting for your completion";
+        }
+        else{
+            statut = status.getStatus();
+        }
         newNotification.setBarter_id(barter);
-        newNotification.setUser(userRepository.findById(userId).get());
         newNotification.setType(status.getStatus());
         newNotification.setStatus("unread");
-        newNotification.setMessage("Barter Proposal with user " + userRepository.findById(userId).get().getUsername() + " is " + status.getStatus());
+        newNotification.setMessage("Barter Proposal with user " + userRepository.findById(userId).get().getUsername() + " is " + statut);
         newNotification.setTimestamp(LocalDate.now());
         notificationService.save(newNotification);
         notificationService.notifyNewBarter(newNotification);
         barter.setStatus(newStatus);
         barterService.updateStatus(barter);
-        return new ResponseEntity<>("Status updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>(newStatus, HttpStatus.OK);
     }
 
     private boolean isUserAuthorized(User userDetails, Barter barter) {
