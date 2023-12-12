@@ -39,8 +39,8 @@ public class UserController {
             return new ResponseEntity<>(userBarters, HttpStatus.OK);
         }
     }
-    @GetMapping("/notification")
-    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@RequestHeader Integer user_id) {
+    @GetMapping("/notification/{user_id}")
+    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@PathVariable Integer user_id) {
         List<NotificationDTO> notifications = notificationService.getNotificationsByUserId(user_id)
                 .stream()
                 .map(NotificationDTO::mapToDTO)

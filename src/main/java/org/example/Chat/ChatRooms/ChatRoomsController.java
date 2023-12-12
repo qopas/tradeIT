@@ -30,13 +30,8 @@ public class ChatRoomsController {
         this.userChatRoomRepository = userChatRoomRepository;
         this.userRepository = userRepository;
     }
-    @GetMapping()
-    public ResponseEntity<List<ChatRoomDTO>>getChatRoomsByUserId(@RequestHeader Integer user_id) {
-        List<ChatRoomDTO> chatRoomDTOs = chatRoomService.getChatRoomsByUserId(user_id);
-        return new ResponseEntity<>(chatRoomDTOs, HttpStatus.OK);
-    }
-    @GetMapping("/{target_user_id}")
-    public ChatRoomDTO getMessagesForRoom(@PathVariable Integer target_user_id, @RequestHeader Integer user_id){
+    @GetMapping("/{target_user_id}/{user_id}")
+    public ChatRoomDTO getMessagesForRoom(@PathVariable Integer target_user_id, @PathVariable Integer user_id){
         Integer roomId =userChatRoomRepository.findRoomIdByUserIds(target_user_id,user_id).orElse(null);
         UserDTO targetUser = UserDTO.fromUser(userRepository.findById(target_user_id).get());
         ChatRoomDTO chatRoomDTO;
@@ -49,13 +44,18 @@ public class ChatRoomsController {
         }
         List<MessageDTO> messageDTOS = messageService.getMessagesForRoom(roomId);
         boolean isRead = false;
-            chatRoomDTO =  ChatRoomDTO.builder()
-                    .id(roomId)
-                    .targetUser(targetUser)
-                    .isRead(isRead)
-                    .messages(messageDTOS)
-                    .build();
-            return chatRoomDTO;
+        chatRoomDTO =  ChatRoomDTO.builder()
+                .id(roomId)
+                .targetUser(targetUser)
+                .isRead(isRead)
+                .messages(messageDTOS)
+                .build();
+        return chatRoomDTO;
+    }
+    @GetMapping("/{user_id}")
+    public ResponseEntity<List<ChatRoomDTO>>getChatRoomsByUserId(@PathVariable Integer user_id) {
+        List<ChatRoomDTO> chatRoomDTOs = chatRoomService.getChatRoomsByUserId(user_id);
+        return new ResponseEntity<>(chatRoomDTOs, HttpStatus.OK);
     }
 
 

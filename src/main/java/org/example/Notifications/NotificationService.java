@@ -21,8 +21,8 @@ public class NotificationService {
     public void notifyNewBarter(Notification notification) {
         webSocketController.sendNotification(notification);
     }
-    public List<Notification> getNotificationsByUserId(Integer userId) {
-        return notificationRepository.findByUserId(userId);
+    public List<Notification> getNotificationsByUserId(Integer user_id) {
+        return notificationRepository.findByUserId(user_id);
     }
 
     public void save(Notification newNotification) {

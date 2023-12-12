@@ -46,11 +46,11 @@ public class BarterController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PatchMapping("/{barter_id}")
+    @PatchMapping("/status/{barter_id}/{user_id}")
     public ResponseEntity<String> updateBarterStatus(
             @PathVariable("barter_id") Integer barterId,
             @RequestBody() BarterStatusUpdateRequest status,
-            @RequestHeader("user_id") Integer userId) {
+            @PathVariable("user_id") Integer userId) {
 
         Barter barter = barterService.getBarterById(barterId);
         if (barter == null) {

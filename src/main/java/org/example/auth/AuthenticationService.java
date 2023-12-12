@@ -30,7 +30,7 @@ public class AuthenticationService {
     private final VerificationTokenRepository verificationTokenRepository;
     private final EmailService emailService;
     public RegistrationResponse register(RegisterRequest request) {
-        try {
+
             Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
             if(userOptional.isPresent()){
                 if(userOptional.get().isEnabled()){
@@ -66,10 +66,8 @@ public class AuthenticationService {
             verificationTokenRepository.save(newVerificationToken);
             emailService.sendVerificationToken(user.getEmail(), token);
             return new RegistrationResponse(true, "success");
-        } catch (Exception e) {
 
-            return new RegistrationResponse(false, "error");
-        }    }
+    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(

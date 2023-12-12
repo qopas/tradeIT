@@ -41,7 +41,7 @@ public class EmailService {
                     "            <td align=\"center\" bgcolor=\"#ffffff\" style=\"padding: 40px 0;\">\n" +
                     "              <h1 style=\"color: #333333;\">Welcome to <img src=\"https://trade-it.vercel.app/assets/images/Logo.jpg\" alt=\"Logo\" style=\"vertical-align: middle; max-width: 150px; max-height: 150px; margin-bottom: 15px;\"></h1>\n" +
                     "              <p style=\"color: #666666; font-size: 16px; line-height: 1.6;\">Thank you for signing up. Please confirm your email address to activate your account.</p>\n" +
-                    "              <a href=\"http://localhost:3000?emailToken=" + token + "\" style=\"display: inline-block; padding: 12px 24px; background-color: #0EB085; color: #ffffff; text-decoration: none; border-radius: 4px;\">Confirm Email</a>\n" +
+                    "              <a href=\"https://trade-it.vercel.app/?emailToken=" + token + "\" style=\"display: inline-block; padding: 12px 24px; background-color: #0EB085; color: #ffffff; text-decoration: none; border-radius: 4px;\">Confirm Email</a>\n" +
                     "            </td>\n" +
                     "          </tr>\n" +
                     "        </table>\n" +
